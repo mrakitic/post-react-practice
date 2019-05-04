@@ -29,12 +29,29 @@ export class PostDetails extends Component {
   render() {
     const { posts } = this.state;
     const { comments } = this.state;
-        console.log(this.state)
+
+    console.log(comments);
+        
     return (
       <>
         {posts && <div>Id of your post: {posts.id}</div>}
        {posts && <div>Title of your post: {posts.title}</div>}
-        <div>Comments of your post:{comments}</div>
+        <div>        
+            {comments
+            ? comments.map(item => (
+                <div key={item.id}>
+                  <h2 className="item-title">                    
+                      <div>{item.name}</div>                    
+                    <div>{item.id}</div>
+                  </h2>
+                  </div>
+                  
+                  )) : 'No comments'}
+
+
+                  </div>
+                  
+                  
       </>
     );
   }
