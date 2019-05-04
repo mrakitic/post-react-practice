@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export class Posts extends Component {
+export class PostDetails extends Component {
   state = {
     posts: undefined,
     comments: undefined
@@ -15,9 +15,9 @@ export class Posts extends Component {
         .then(posts => this.setState({ posts }))
         .then(() =>
           fetch(
-            `https://jsonplaceholder.typicode.com/posts/${
+            `https://jsonplaceholder.typicode.com/comments?postId=${
               match.params.id
-            }/comments`
+            }`
           )
             .then(response => response.json())
             .then(comments => this.setState({ comments }))
@@ -28,11 +28,13 @@ export class Posts extends Component {
 
   render() {
     const { posts } = this.state;
-
+    const { comments } = this.state;
+        console.log(this.state)
     return (
       <>
-        <div>Id of your task: {posts.id}</div>
-        <div>Title of your task: {posts.title}</div>
+        {posts && <div>Id of your post: {posts.id}</div>}
+       {posts && <div>Title of your post: {posts.title}</div>}
+        <div>Comments of your post:{comments}</div>
       </>
     );
   }

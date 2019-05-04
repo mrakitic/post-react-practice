@@ -10,7 +10,7 @@ export const App = () => {
         <AppLayout>
           <Switch>
             <Route exact path="/post" component={Posts} />
-            <Route exact path="/post/:id" component={PostDetails} />
+            <Route path="/post/:id" component={PostDetails} />
           </Switch>
         </AppLayout>
       </BrowserRouter>
