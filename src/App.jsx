@@ -8,7 +8,7 @@ export const App = () => {
     return (
       <BrowserRouter>
         <AppLayout>
-          <Switch>
+          <Switch>            
             <Route exact path="/post" component={Posts} />
             <Route path="/post/:id" component={PostDetails} />
           </Switch>

@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import "../Post.css";
 import { Link } from "react-router-dom";
+import  {PaginacionTabla}  from "../components";
 
 export class Posts extends Component {
   state = {
-    posts: undefined
+    posts: undefined,
+    itemsPerPage: 5
   };
 
   componentDidMount() {
@@ -36,8 +38,13 @@ export class Posts extends Component {
                   </h2>
                 </div>
               ))
-            : "No todos right now, check back later."}
+            : "No posts right now, check back later."}
         </div>
+        <PaginacionTabla
+          itemsperpage={this.state.itemsPerPage}          
+          items={posts}
+          pagesspan={4}
+        />
       </main>
     );
   }
