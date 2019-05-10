@@ -1,2 +1,2 @@
 export * from './AppLayout';
-export * from './PaginacionTabla';
+export * from './Pagination';

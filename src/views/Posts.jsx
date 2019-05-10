@@ -1,12 +1,27 @@
 import React, { Component } from "react";
 import "../Post.css";
 import { Link } from "react-router-dom";
-import  {PaginacionTabla}  from "../components";
+import { Pagination } from "../components";
 
 export class Posts extends Component {
   state = {
     posts: undefined,
-    itemsPerPage: 5
+    currentPage: 1,
+    itemsPerPage: 5,
+    totalCount: 100
+  };
+
+  setPage = event => {
+    const { value } = event.target;
+    this.setState({
+      currentPage: parseInt(value)
+    });
+  };
+
+  setTotalCount = posts => {
+    this.setState({
+      totalCount: posts.length
+    });
   };
 
   componentDidMount() {
@@ -20,31 +35,37 @@ export class Posts extends Component {
       .catch(error => console.log(error));
   }
 
-  render() {
-    const { posts } = this.state;
+  componentWillUpdate(nextProps) {
+    const { posts } = this.props;
+    if (posts !== nextProps.todos) {
+      this.setTotalCount(nextProps.props);
+    }
+  }
+  renderItem = ({ id, title }) => (
+    <div key={id}>
+    <h2 className="item-title">
+      <Link to={`/post/${id}`}>
+        <div>{title}</div>
+      </Link>
+      </h2>
+    </div>
+  );
 
+  render() {
+    const { posts, currentPage, itemsPerPage } = this.state;
+    if (!posts) {
+      return <p>Loader</p>;
+    }
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pagedPosts = posts.slice(startIndex, endIndex);
     return (
       <main className="main wrapper">
-        <h1>This are POSTS!</h1>
-        <div className="list">
-          {posts
-            ? posts.map(item => (
-                <div key={item.id}>
-                  <h2 className="item-title">
-                    <Link to={`/post/${item.id}`}>
-                      <div>{item.title}</div>
-                    </Link>
-                    <div>{item.id}</div>
-                  </h2>
-                </div>
-              ))
-            : "No posts right now, check back later."}
+        <h1>This are Posts!</h1>
+        <div className="list">        
+          {pagedPosts.map(item => this.renderItem(item))}
+          <Pagination {...this.state} setPage={this.setPage} />
         </div>
-        <PaginacionTabla
-          itemsperpage={this.state.itemsPerPage}          
-          items={posts}
-          pagesspan={4}
-        />
       </main>
     );
   }
